@@ -1890,6 +1890,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public void shareTextUrl(String name) {
+            Log.d("myTag", "This is my message");
+            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+            // Add data to the intent, the receiving app will decide
+            // what to do with it.
+            share.putExtra(Intent.EXTRA_SUBJECT, "Share link");
+            share.putExtra(Intent.EXTRA_TEXT, name);
+
+            startActivity(Intent.createChooser(share, "Share link!"));
+        }
+
+        @JavascriptInterface
         public void share(String shareObject) {
             try {
                 JSONObject data = new JSONObject(shareObject);
