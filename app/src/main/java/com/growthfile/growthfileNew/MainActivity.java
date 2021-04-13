@@ -407,7 +407,9 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 ImageHandler imageHandler = new ImageHandler();
                                 String callbackName = jsCallbackName.getName();
-                                mWebView.loadUrl("javascript:" + callbackName + "('" + imageHandler.getImageOutput(file) + "')");
+				String callbackScript = "if(window."+callbackName+"){"+callbackName+" ('"+imageHandler.getImageOutput(file)+"')}";
+				//				    mWebView.evaluateJavascript(callbackScript,null);
+				mWebView.loadUrl("javascript:"+callbackScript);
                                 findViewById(R.id.container).setVisibility(View.VISIBLE);
                                 findViewById(R.id.camera_view).setVisibility(View.GONE);
                                 cameraProvider.unbindAll();
