@@ -975,6 +975,7 @@ public class MainActivity extends AppCompatActivity {
 	mWebView.setWebContentsDebuggingEnabled(true);
 	mWebView.loadUrl(getString(R.string.app_url));
         mWebView.requestFocus(View.FOCUS_DOWN);
+      //  mWebView.setWebContentsDebuggingEnabled(true);
         registerForContextMenu(mWebView);
         logger = AppEventsLogger.newLogger(MainActivity.this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -1889,6 +1890,21 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public void logEvent(String eventName) {
             logger.logEvent(eventName);
+        }
+
+        @JavascriptInterface
+        public void shareTextUrl(String name) {
+            Log.d("myTag", "This is my message");
+            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+            // Add data to the intent, the receiving app will decide
+            // what to do with it.
+            share.putExtra(Intent.EXTRA_SUBJECT, "Share link");
+            share.putExtra(Intent.EXTRA_TEXT, name);
+
+            startActivity(Intent.createChooser(share, "Share link!"));
         }
 
         @JavascriptInterface
